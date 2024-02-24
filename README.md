@@ -6,4 +6,6 @@ bash = Spark
 streaming  = flink
 streamaing data = kafka
 open table format = inceberg
-bash 
+monitoring = prometheus 
+ci/cd = github actions
+data delivery = trino presto
