@@ -18,4 +18,9 @@ with DAG(
         bash_command='echo "Goodbye ...."',
     )
 
-    task1 >> task2
+    task3 = BashOperator(
+        task_id='hell',
+        bash_command='echo "its hell ....."',
+    )
+
+    task1 >> task2 >> task3
