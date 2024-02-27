@@ -28,7 +28,7 @@ with DAG(
     submit = SparkKubernetesOperator(
         task_id='spark_transform_data',
         namespace='spark-apps',
-        application_file='/k8s/spark-pi.yaml',
+        application_file='k8s/spark-pi.yaml',
         kubernetes_conn_id='kubernetes_default',
         do_xcom_push=True,
     )
