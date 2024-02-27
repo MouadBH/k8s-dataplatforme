@@ -33,4 +33,11 @@ with DAG(
         do_xcom_push=True,
     )
 
-    submit
+    senor = SparkKubernetesSensor(
+        task_id='spark_pi_monitor',
+        namespace="spark-apps",
+        application_name="{{ task_instance.xcom_pull(task_ids='spark_transform_data')['metadata']['name'] }}",
+        conn_id="kubernetes_default",
+    )
+
+    submit >> senor
