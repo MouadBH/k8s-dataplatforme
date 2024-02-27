@@ -25,7 +25,7 @@ dag = DAG(
 )
 task1 = BashOperator(
     task_id = 'hello_world',
-    bash_command='echo "Hello darkness my old friend."',
+    bash_command='echo "Hello darkness my old friend." && sleep 10',
     dag=dag,
 )
 
