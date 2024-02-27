@@ -17,27 +17,29 @@ default_args = {
     'retries': 3
 }
 
-with DAG(
+dag =  DAG(
     'spark_pi',
     start_date=days_ago(1),
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     description='submit spark-pi as sparkApplication on kubernetes',
     tags=['example']
-):
-    submit = SparkKubernetesOperator(
-        task_id='spark_transform_data',
-        namespace='spark-apps',
-        application_file='k8s/spark-pi.yaml',
-        kubernetes_conn_id='kubernetes_default',
-        do_xcom_push=True,
-    )
+)
+submit = SparkKubernetesOperator(
+    task_id='spark_transform_data',
+    namespace='spark-apps',
+    application_file='k8s/spark-pi.yaml',
+    kubernetes_conn_id='kubernetes_default',
+    do_xcom_push=True,
+    dag=dag
+)
 
-    senor = SparkKubernetesSensor(
-        task_id='spark_pi_monitor',
-        namespace="spark-apps",
-        application_name="{{ task_instance.xcom_pull(task_ids='spark_transform_data')['metadata']['name'] }}",
-        kubernetes_conn_id="kubernetes_default",
-    )
+senor = SparkKubernetesSensor(
+    task_id='spark_pi_monitor',
+    namespace="spark-apps",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_transform_data')['metadata']['name'] }}",
+    kubernetes_conn_id="kubernetes_default",
+    dag=dag
+)
 
-    submit >> senor
+submit >> senor
