@@ -18,7 +18,7 @@ default_args = {
 }
 
 dag =  DAG(
-    'spark_pi',
+    'sparkpy_pi',
     start_date=days_ago(1),
     default_args=default_args,
     schedule_interval=timedelta(days=1),
