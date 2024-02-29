@@ -23,7 +23,7 @@ dag =  DAG(
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     description='submit spark-pi as sparkApplication on kubernetes',
-    tags=['example']
+    tags=['example', 'scala']
 )
 submit = SparkKubernetesOperator(
     task_id='spark_transform_data',
