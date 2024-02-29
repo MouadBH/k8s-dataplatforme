@@ -38,10 +38,13 @@ minio-install:
     kubectl apply -f k8s/minio/helm/minio-pvc.yaml
     kubectl apply -f k8s/minio/helm//minio-deployment.yaml
     kubectl apply -f k8s/minio/helm/minio-minio-service.yaml
+    # port forwarding for minio console
+    # kubectl port-forward pod/minio-deployment-6f5b78499d-7r29p 37829 37829 -n minio-dev                                                             ─╯
 
 minio-clean:
     echo 'Clean Minio.'
     kubectl delete deployment minio-deployment
     kubectl delete pvc minio-pv-claim
     kubectl delete svc minio-service
+    kubectl delete namespace minio-dev
 
