@@ -16,7 +16,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: spark-pi-dag
+  name: sparkpy-pi-dag
   namespace: spark-apps # This namespace was created at the installation step of Spark operator chart
 spec:
   type: Python
