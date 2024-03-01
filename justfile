@@ -39,7 +39,15 @@ minio-install:
     kubectl apply -f k8s/minio/helm//minio-deployment.yaml
     kubectl apply -f k8s/minio/helm/minio-minio-service.yaml
     # port forwarding for minio console
-    # kubectl port-forward pod/minio-deployment-6f5b78499d-7r29p 37829 37829 -n minio-dev                                                             ─╯
+    # kubectl port-forward pod/minio-deployment-6f5b78499d-7r29p 37829 37829 -n minio-dev
+
+portainer-install:
+    kubectl apply -f k8s/portainer/helm/portainer-ns.yaml
+    kubectl apply -f k8s/portainer/helm/portainer-sa.yaml
+    kubectl apply -f k8s/portainer/helm/portainer-pvc.yaml
+    kubectl apply -f k8s/portainer/helm/portainer-crb.yaml
+    kubectl apply -f k8s/portainer/helm/portainer-svc.yaml
+    kubectl apply -f k8s/portainer/helm/portainer-deployment.yaml
 
 minio-clean:
     echo 'Clean Minio.'
