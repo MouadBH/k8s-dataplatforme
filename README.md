@@ -18,3 +18,9 @@ open table format = inceberg
 monitoring = prometheus 
 ci/cd = github actions
 data delivery = trino presto
+
+For each pipline
+- Build pipeline docker image.
+- Push docker image to a registry
+- Create airflow Dag file and k8s yaml file.
+- Set docker image tag and a application name in yaml fiel.
