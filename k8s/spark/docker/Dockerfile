@@ -25,6 +25,8 @@ RUN pip3 install -r requirements.txt
 
 FROM pyspark-base AS pyspark
 
+ENV PATH="/opt/spark/sbin:/opt/spark/bin:${PATH}"
+
 COPY ${SPARK_DEFAULTS_CONF} "${SPARK_HOME}/conf/spark-defaults.conf"
 
 
@@ -51,8 +53,7 @@ RUN wget ${MAVEN_iceberg_REPO}/iceberg-aws-bundle/${ICEBERG_VERSION}/iceberg-aws
 RUN wget $MAVEN_REPO/postgresql/postgresql/$POSTGRES_VERSION/postgresql-$POSTGRES_VERSION.jar \
     -O $SPARK_HOME/jars/postgresql-$POSTGRES_VERSION.jar
 
-
-ENV PATH="/opt/spark/sbin:/opt/spark/bin:${PATH}"
+RUN mkdir -p /home/iceberg/spark-events /home/iceberg
 
 RUN chmod u+x /opt/spark/sbin/* && \
     chmod u+x /opt/spark/bin/*
