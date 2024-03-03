@@ -7,6 +7,16 @@ alias adb := airflow-docker-build
 alias ai := airflow-install
 alias soi := spark-operator-install
 
+dockerhub_username := "mouadbh"
+docker_image_name := "spark-base:1.0"
+docker_image_tag := dockerhub_username + "/" + docker_image_name
+
+
+# Building and push docker image to registry.
+build-spark:
+    docker build -t {{ docker_image_name }} k8s/spark/docker
+    docker tag {{ docker_image_name }} {{ docker_image_tag }}
+    docker push {{ docker_image_tag }}
 
 # Building Airflow image.
 airflow-docker-build:
