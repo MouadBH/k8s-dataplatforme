@@ -13,7 +13,7 @@ docker_image_tag := dockerhub_username + "/" + docker_image_name
 
 
 # Building and push docker image to registry.
-build-spark:
+spark-image-build:
     docker build -t {{ docker_image_name }} k8s/spark/docker
     docker tag {{ docker_image_name }} {{ docker_image_tag }}
     docker push {{ docker_image_tag }}
@@ -29,6 +29,16 @@ airflow-install:
     helm repo add apache-airflow https://airflow.apache.org
     minikube image load myairflow:1.0
     helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace --values k8s/airflow/helm/values.yaml
+
+pg-catalog-install:
+    echo 'Installing Postgres Database as a catalog for Iceberg.'
+    kubectl create namespace iceberg-catalog
+    kubectl apply -f k8s/pg-catalog/helm/pg-cm.yaml
+    kubectl apply -f k8s/pg-catalog/helm/pg-pv.yaml
+    kubectl apply -f k8s/pg-catalog/helm/pg-pvc.yaml
+    kubectl apply -f k8s/pg-catalog/helm/pg-deployment.yaml
+    kubectl apply -f k8s/pg-catalog/helm/pg-svc.yaml
+
 
 # Install Spark operator Helm chart.
 spark-operator-install:
@@ -66,3 +76,10 @@ minio-clean:
     kubectl delete svc minio-service
     kubectl delete namespace minio-dev
 
+pg-catalog-clean:
+    echo 'Clean PG catalog database.'
+    kubectl delete deployment postgres
+    kubectl delete svc postgres
+    kubectl delete pvc postgres-volume-claim
+    kubectl delete configmap postgres-secret
+    kubectl delete namespace iceberg-catalog
