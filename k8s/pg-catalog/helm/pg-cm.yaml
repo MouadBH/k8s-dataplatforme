@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-secret
+  namespace: iceberg-catalog
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: iceberg-catalog
+  POSTGRES_USER: iceberg
+  POSTGRES_PASSWORD: iceberg
